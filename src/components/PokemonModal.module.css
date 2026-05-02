@@ -1,0 +1,227 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 60, 70, .55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 12px;
+}
+
+.modal {
+  background: var(--white);
+  border: 2px solid var(--teal-dark);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp .2s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero {
+  background: var(--teal-header);
+  padding: 18px 18px 0;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255,255,255,.25);
+  border: 1.5px solid rgba(255,255,255,.5);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s;
+}
+
+.close:hover { background: rgba(255,255,255,.45); }
+
+.num {
+  font-size: 10px;
+  color: rgba(255,255,255,.7);
+  font-family: var(--mono);
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: 900;
+  text-transform: capitalize;
+  color: #fff;
+  font-family: var(--mono);
+  min-height: 30px;
+  letter-spacing: .03em;
+}
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: .85em;
+  background: #fff;
+  vertical-align: text-bottom;
+  animation: blink .55s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.artWrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.artWrap img {
+  height: 130px;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 14px rgba(0,0,0,.25));
+}
+
+.body {
+  padding: 14px;
+}
+
+.loading {
+  text-align: center;
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 20px 0;
+}
+
+.types {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 11px;
+}
+
+.typeBadge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 2px 9px;
+  border-radius: 20px;
+  border: 1.5px solid transparent;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.infoCell {
+  background: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  border-radius: 8px;
+  padding: 7px 10px;
+}
+
+.infoLabel {
+  font-size: 9px;
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.infoValue {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  text-transform: capitalize;
+  margin-top: 2px;
+  font-family: var(--mono);
+}
+
+.sectionLabel {
+  font-size: 9px;
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin: 10px 0 5px;
+}
+
+.statRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+  font-family: var(--mono);
+  width: 46px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.statValue {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text);
+  width: 22px;
+  text-align: right;
+  flex-shrink: 0;
+  font-family: var(--mono);
+}
+
+.statTrack {
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  overflow: hidden;
+}
+
+.statFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width .7s cubic-bezier(.4, 0, .2, 1);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.tag {
+  background: var(--cell-bg);
+  border: 1px solid var(--cell-border);
+  border-radius: 5px;
+  padding: 2px 7px;
+  font-size: 10px;
+  color: var(--text-mid);
+  text-transform: capitalize;
+  font-family: var(--mono);
+}

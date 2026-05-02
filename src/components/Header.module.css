@@ -1,0 +1,121 @@
+.header {
+  background: var(--teal-header);
+  border-bottom: 2px solid var(--teal-dark);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  flex-wrap: wrap;
+  row-gap: 6px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+}
+
+.search {
+  flex: 1;
+  min-width: 110px;
+  max-width: 240px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search svg {
+  position: absolute;
+  left: 10px;
+  pointer-events: none;
+}
+
+.search input {
+  width: 100%;
+  background: rgba(255,255,255,.3);
+  border: 1.5px solid rgba(255,255,255,.5);
+  border-radius: 20px;
+  padding: 6px 12px 6px 30px;
+  color: #fff;
+  font-family: var(--sans);
+  font-size: 12px;
+  outline: none;
+  transition: border-color .2s, background .2s;
+}
+
+.search input::placeholder {
+  color: rgba(255,255,255,.6);
+}
+
+.search input:focus {
+  border-color: rgba(255,255,255,.9);
+  background: rgba(255,255,255,.4);
+}
+
+.right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.count {
+  font-size: 11px;
+  color: rgba(255,255,255,.7);
+  font-family: var(--mono);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.aiBtn {
+  background: var(--purple-bg);
+  border: 1.5px solid var(--purple);
+  border-radius: 20px;
+  color: var(--purple-light);
+  padding: 5px 13px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: background .15s;
+  letter-spacing: .03em;
+}
+
+.aiBtn:hover {
+  background: #2d1b69;
+}
+
+.pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--purple-light);
+  flex-shrink: 0;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .35; transform: scale(.6); }
+}
+
+@media (max-width: 480px) {
+  .header { padding: 6px 10px; min-height: 48px; }
+  .title { font-size: 12px; }
+  .count { display: none; }
+}
