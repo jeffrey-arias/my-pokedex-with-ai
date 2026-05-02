@@ -2,6 +2,10 @@
 
 A Pokémon GO–inspired Pokédex built with React + Vite + Apollo GraphQL, featuring a Claude-powered chat assistant.
 
+# 🌐 Live Site
+**[https://my-pokedex-with-ai.vercel.app](https://my-pokedex-with-ai.vercel.app)**
+
+---
 ## Stack
 
 | Layer | Tool |
