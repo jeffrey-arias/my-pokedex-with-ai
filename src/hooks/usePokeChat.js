@@ -9,6 +9,12 @@ export function usePokeChat() {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const clearHistory = useCallback(() => {
+    setHistory([]);
+  }, []);
+
+  return { history, loading, sendMessage, clearHistory };
+
   const sendMessage = useCallback(
     async (userMessage) => {
       const isGreeting = userMessage === GREETING_TRIGGER;

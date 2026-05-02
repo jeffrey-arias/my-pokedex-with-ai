@@ -10,14 +10,13 @@ const QUICK_PROMPTS = [
 ]
 
 export default function ChatPanel({ onClose }) {
-  const { history, loading, sendMessage } = usePokeChat()
+  const { history, loading, sendMessage, clearHistory } = usePokeChat()
   const [input, setInput] = useState('')
   const [pillsVisible, setPillsVisible] = useState(true)
   const [greeted, setGreeted] = useState(false)
   const msgsRef = useRef(null)
   const inputRef = useRef(null)
 
-  // Send greeting on first open
   useEffect(() => {
     if (!greeted && history.length === 0) {
       setGreeted(true)
@@ -47,7 +46,12 @@ export default function ChatPanel({ onClose }) {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() }
   }
 
-  // Filter out the internal greeting trigger from display
+  const handleClear = () => {
+    clearHistory()
+    setPillsVisible(true)
+    setGreeted(false)
+  }
+
   const displayHistory = history.filter((m) => m.content !== '__greeting__')
 
   return (
@@ -58,10 +62,16 @@ export default function ChatPanel({ onClose }) {
           <p className={styles.headerTitle}>Professor Claude</p>
           <p className={styles.headerSub}>Pokémon expert · Powered by Claude · Anthropic</p>
         </div>
+        <button className={styles.clearBtn} onClick={handleClear}>Clear</button>
         <button className={styles.backBtn} onClick={onClose}>← Back</button>
       </div>
 
       <div className={styles.messages} ref={msgsRef}>
+        {displayHistory.length === 0 && !loading && (
+          <div className={styles.emptyState}>
+            Ask Professor Claude anything about Pokémon!
+          </div>
+        )}
         {displayHistory.map((msg, i) => (
           <Message key={i} role={msg.role} text={msg.content} />
         ))}
