@@ -49,6 +49,7 @@ export default async function handler(req, res) {
       system: SYSTEM_PROMPT,
       messages: messages.slice(-10),
     });
+    console.log("Claude response:", JSON.stringify(response));
 
     return res.status(200).json({ reply: response.content[0].text });
   } catch (err) {
