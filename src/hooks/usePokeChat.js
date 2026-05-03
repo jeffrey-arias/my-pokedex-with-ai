@@ -47,8 +47,7 @@ export function usePokeChat() {
         const data = await response.json();
         console.log("status:", response.status);
         console.log("response:", JSON.stringify(data));
-        const reply =
-          data.content?.[0]?.text ?? "My Pokédex signal is weak! Try again.";
+        const reply = data.reply ?? "My Pokédex signal is weak! Try again.";
 
         setHistory((h) => [...h, { role: "assistant", content: reply }]);
         return reply;
