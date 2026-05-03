@@ -13,8 +13,6 @@ export function usePokeChat() {
     setHistory([]);
   }, []);
 
-  return { history, loading, sendMessage, clearHistory };
-
   const sendMessage = useCallback(
     async (userMessage) => {
       const isGreeting = userMessage === GREETING_TRIGGER;
@@ -28,7 +26,7 @@ export function usePokeChat() {
       setLoading(true);
 
       try {
-        const apiKey = import.meta.VITE_ANTHROPIC_API_KEY;
+        const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
         const response = await fetch("/api/chat", {
           method: "POST",
           headers: {
@@ -46,9 +44,9 @@ export function usePokeChat() {
             ].slice(-10),
           }),
         });
+        const data = await response.json();
         console.log("status:", response.status);
         console.log("response:", JSON.stringify(data));
-        const data = await response.json();
         const reply =
           data.content?.[0]?.text ?? "My Pokédex signal is weak! Try again.";
 
@@ -65,5 +63,5 @@ export function usePokeChat() {
     [history],
   );
 
-  return { history, loading, sendMessage };
+  return { history, loading, sendMessage, clearHistory };
 }

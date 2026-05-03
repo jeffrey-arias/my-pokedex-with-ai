@@ -28,9 +28,10 @@
 html, body, #root {
   height: 100%;
   font-family: var(--sans);
-  background: var(--teal-bg);
+  background: #0d0000;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
+  overflow: hidden; /* prevent body scroll — only .screen scrolls */
 }
 
 button {

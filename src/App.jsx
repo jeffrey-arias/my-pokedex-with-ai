@@ -6,6 +6,7 @@ import PokemonGrid from './components/PokemonGrid'
 import SearchResults from './components/SearchResults'
 import PokemonModal from './components/PokemonModal'
 import ChatPanel from './components/ChatPanel'
+import PokedexFrame from './components/PokedexFrame'
 import styles from './App.module.css'
 
 function Pokedex() {
@@ -63,7 +64,9 @@ function Pokedex() {
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <Pokedex />
+      <PokedexFrame>
+        <Pokedex />
+      </PokedexFrame>
     </ApolloProvider>
   )
 }

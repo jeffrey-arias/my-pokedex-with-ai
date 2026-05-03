@@ -1,0 +1,516 @@
+/* ── outer "desk" the Pokédex rests on ── */
+.wrapper {
+  height: 100%;
+  background: radial-gradient(ellipse at 50% 30%, #2e0808 0%, #0d0000 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Pokédex body ── */
+.frame {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* top / sides / bottom leave room for the absolute decorations */
+  padding: 86px 10px 121px;
+  background: linear-gradient(155deg, #e82424 0%, #cc0a0a 38%, #b50000 100%);
+  overflow: hidden; /* clips children to border-radius on desktop */
+  box-shadow:
+    inset 0 3px 8px rgba(255, 120, 120, 0.15),
+    inset 0 -4px 12px rgba(0, 0, 0, 0.28);
+}
+
+/* Desktop: lift off the background, big top-left radius (the camera bump) */
+@media (min-width: 700px) {
+  .wrapper {
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .frame {
+    flex: none;
+    width: 100%;
+    max-width: 960px;
+    min-height: calc(100svh - 40px);
+    border-radius: 8px;
+    box-shadow:
+      inset 0 3px 8px rgba(255, 120, 120, 0.15),
+      inset -3px -4px 12px rgba(0, 0, 0, 0.3),
+      0 28px 72px rgba(0, 0, 0, 0.75),
+      0 6px 20px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* ── Top bar: camera eye + indicator lights ── */
+.topDecor {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 86px;
+  display: flex;
+  align-items: center;
+  padding: 20px 18px 20px 18px;
+  gap: 14px;
+}
+
+/* Ridge line below topDecor */
+.topDecor::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(to right, #660000, #990000 30%, #990000 70%, #660000);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+
+/* The big camera/lens — Pokédex's signature eye */
+.camera {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 33% 28%,
+    #bbeeff 0%,
+    #2299cc 42%,
+    #0c4a7a 68%,
+    #031428 100%
+  );
+  /* Three concentric chrome rings */
+  box-shadow:
+    0 0 0 3px #c5c5c5,
+    0 0 0 6px #888,
+    0 0 0 8px #555,
+    inset 0 2px 8px rgba(0, 0, 0, 0.55),
+    0 3px 8px rgba(0, 0, 0, 0.65);
+  position: relative;
+}
+
+/* White glint on the lens */
+.camera::after {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 11px;
+  width: 13px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  transform: rotate(-25deg);
+  pointer-events: none;
+}
+
+/* Three small indicator lights */
+.lights {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.light {
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+}
+
+.lightRed {
+  background: radial-gradient(circle at 34% 28%, #ffaaaa, #ff1111);
+  box-shadow: 0 0 6px 2px rgba(255, 30, 30, 0.65);
+}
+
+.lightYellow {
+  background: radial-gradient(circle at 34% 28%, #fff099, #ffcc00);
+  box-shadow: 0 0 6px 2px rgba(255, 200, 0, 0.55);
+}
+
+.lightGreen {
+  background: radial-gradient(circle at 34% 28%, #aaffaa, #22dd44);
+  box-shadow: 0 0 6px 2px rgba(0, 210, 50, 0.65);
+}
+
+/* ── Screen (scrollable content area) ── */
+.screen {
+  flex: 1;
+  min-height: 0; /* crucial — prevents flex overflow bug */
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #b8e8f0; /* matches --teal-bg */
+  border-radius: 8px;
+  border: 4px solid #660000;
+  box-shadow:
+    inset 0 3px 16px rgba(0, 0, 0, 0.45),
+    inset 0 0 4px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.65s ease 0.12s;
+}
+
+.screen.screenOpen {
+  opacity: 1;
+}
+
+/* ── Bottom bar: D-pad, speaker grille, A/B buttons ── */
+.bottomDecor {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px;
+  border-top: 3px solid #880000;
+}
+
+/* D-Pad */
+.dpad {
+  position: relative;
+  width: 50px;
+  height: 62px;
+  flex-shrink: 0;
+}
+
+.dpadH,
+.dpadV {
+  position: absolute;
+  background: linear-gradient(145deg, #444, #1e1e1e);
+  border-radius: 3px;
+  box-shadow:
+    inset 0 1px 4px rgba(0, 0, 0, 0.6),
+    0 1px 1px rgba(255, 255, 255, 0.07);
+}
+
+.dpadH {
+  width: 50px;
+  height: 17px;
+  top: 22.5px;
+  left: 0;
+}
+
+.dpadV {
+  width: 17px;
+  height: 50px;
+  top: 6px;
+  left: 16.5px;
+}
+
+/* Speaker grille */
+.speaker {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.speakerLine {
+  width: 56px;
+  height: 3px;
+  background: #880000;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55);
+}
+
+/* A / B action buttons (angled like the real thing) */
+.actionBtns {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  transform: rotate(-20deg);
+}
+
+.btnA,
+.btnB {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: var(--sans, 'Exo 2', sans-serif);
+  user-select: none;
+}
+
+.btnA {
+  background: radial-gradient(circle at 35% 28%, #dd66ff, #8800cc);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.5),
+    0 0 10px rgba(150, 0, 230, 0.3);
+}
+
+.btnB {
+  background: radial-gradient(circle at 35% 28%, #6699ff, #0044cc);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.5),
+    0 0 10px rgba(0, 80, 230, 0.3);
+}
+
+/* ── Mobile tweaks (< 700px) ── */
+@media (max-width: 699px) {
+  .frame {
+    padding: 74px 8px 97px;
+  }
+
+  .topDecor {
+    height: 74px;
+    padding: 20px 12px;
+    gap: 10px;
+  }
+
+  .camera {
+    width: 38px;
+    height: 38px;
+    box-shadow:
+      0 0 0 2px #c5c5c5,
+      0 0 0 4px #888,
+      0 0 0 6px #555,
+      inset 0 2px 6px rgba(0, 0, 0, 0.55),
+      0 2px 6px rgba(0, 0, 0, 0.6);
+  }
+
+  .camera::after {
+    top: 7px;
+    left: 9px;
+    width: 10px;
+    height: 6px;
+  }
+
+  .light {
+    width: 9px;
+    height: 9px;
+  }
+
+  .bottomDecor {
+    padding: 20px 16px;
+  }
+
+  .dpad {
+    width: 42px;
+    height: 54px;
+  }
+
+  .dpadH {
+    width: 42px;
+    height: 14px;
+    top: 20px;
+    left: 0;
+  }
+
+  .dpadV {
+    width: 14px;
+    height: 42px;
+    top: 6px;
+    left: 14px;
+  }
+
+  .speakerLine {
+    width: 44px;
+    height: 2.5px;
+  }
+
+  .btnA,
+  .btnB {
+    width: 26px;
+    height: 26px;
+    font-size: 9px;
+  }
+}
+
+/* ════════════════════════════════════════════
+   Opening animation overlay
+   Two red panels (top/bottom) that slide apart
+   to reveal the Pokédex screen on load.
+   ════════════════════════════════════════════ */
+
+/* Overlay sits ONLY over the screen area — topDecor and bottomDecor always visible */
+.openOverlay {
+  position: absolute;
+  inset: 86px 0 121px; /* match topDecor/bottomDecor heights exactly */
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* clips panels as they slide into the bar zones */
+  pointer-events: none;
+}
+
+/* ── Top panel: plain red, slides up ── */
+.panelTop {
+  flex: 1;
+  background: linear-gradient(to bottom, #e82424, #b50000);
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.1, 1) 0.1s;
+}
+
+/* Hinge at the bottom of panelTop — flies off with the top half */
+.panelHinge {
+  height: 4px;
+  flex-shrink: 0;
+  margin-top: auto;
+  background: linear-gradient(to right, #550000, #990000 20%, #aa0000 50%, #990000 80%, #550000);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Bottom panel: plain red, slides down ── */
+.panelBottom {
+  flex: 1;
+  background: linear-gradient(to top, #e82424, #b50000);
+  transform: translateY(0);
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.1, 1) 0.1s;
+}
+
+/* ── Opened state: panels slide into the bar zones and are clipped ── */
+.overlayOpen .panelTop {
+  transform: translateY(-100%);
+}
+
+.overlayOpen .panelBottom {
+  transform: translateY(100%);
+}
+
+/* ── Closed-state decoration: large ring + lens centered at the hinge ── */
+.closedDecor {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: opacity 0.2s ease 0s;
+}
+
+.overlayOpen .closedDecor {
+  opacity: 0;
+}
+
+/* Outer ring — dark border, slight inner glow */
+.closedRing {
+  width: min(58%, 260px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 6px solid #1a0000;
+  background: radial-gradient(circle, rgba(180, 20, 20, 0.25) 0%, transparent 70%);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Dark blue camera/lens centered in the ring */
+.closedLens {
+  width: 43%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #5588bb 0%, #1a2e5a 45%, #070d1c 100%);
+  border: 3px solid #110022;
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.6),
+    inset 0 2px 6px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+/* Two white glint dots on the lens */
+.closedLens::before {
+  content: '';
+  position: absolute;
+  top: 18%;
+  left: 22%;
+  width: 30%;
+  height: 18%;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  transform: rotate(-30deg);
+}
+
+.closedLens::after {
+  content: '';
+  position: absolute;
+  top: 38%;
+  left: 18%;
+  width: 14%;
+  height: 9%;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+}
+
+/* Small blue indicator dot — bottom-right of the overlay */
+.closedDot {
+  position: absolute;
+  bottom: 18px;
+  right: 28px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, #88ccff, #2266bb);
+  border: 2px solid #110022;
+  box-shadow: 0 0 8px rgba(100, 180, 255, 0.5);
+  transition: opacity 0.2s ease 0s;
+}
+
+.overlayOpen .closedDot {
+  opacity: 0;
+}
+
+/* ── Mobile tweaks for overlay ── */
+@media (max-width: 699px) {
+  .openOverlay {
+    inset: 74px 0 97px;
+  }
+
+  .closedDot {
+    bottom: 12px;
+    right: 18px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ════════════════════════════════════════════
+   Loading light animation
+   Each light pulses in sequence while waiting
+   for the Pokédex to open (5-second cycle).
+   ════════════════════════════════════════════ */
+
+@keyframes loadLight {
+  0%, 55%, 100% { transform: scale(1); }
+  27%           { transform: scale(1.8); }
+}
+
+.lightsLoading .lightRed {
+  animation: loadLight 1.5s infinite;
+  animation-delay: 0s;
+}
+
+.lightsLoading .lightYellow {
+  animation: loadLight 1.5s infinite;
+  animation-delay: 0.5s;
+}
+
+.lightsLoading .lightGreen {
+  animation: loadLight 1.5s infinite;
+  animation-delay: 1s;
+}
+
+.loadingText {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--sans, 'Exo 2', sans-serif);
+  text-transform: uppercase;
+  margin-left: auto;
+  margin-right: 18px;
+  animation: loadingTextBlink 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingTextBlink {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
